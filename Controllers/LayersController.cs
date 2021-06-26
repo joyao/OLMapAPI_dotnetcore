@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace OLMapAPI_Core_PoC.Controllers
 {
+    /// <summary>
+    /// A controller performs operations on Layers
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class LayersController : ControllerBase
@@ -19,7 +22,13 @@ namespace OLMapAPI_Core_PoC.Controllers
             this._config = config;
         }
 
-
+        /// <summary>
+        /// To Get Layer List
+        /// </summary>
+        /// <remarks>Awesomeness!</remarks>
+        /// <response code="200">Return List data</response>
+        /// <response code="400">Product has missing/invalid values</response>
+        /// <response code="500">Oops! Can't create your product right now</response>
         // GET api/<LayersController>/getLayerResource
         [HttpGet("getLayerResource")]
         public async Task<ActionResult> getLayerResource()
