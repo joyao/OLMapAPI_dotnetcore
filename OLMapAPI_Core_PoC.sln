@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OLMapAPI_Core_PoC", "OLMapAPI_Core_PoC.csproj", "{D34E0426-3F71-466F-9720-5D9FD36B114A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D34E0426-3F71-466F-9720-5D9FD36B114A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D34E0426-3F71-466F-9720-5D9FD36B114A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D34E0426-3F71-466F-9720-5D9FD36B114A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D34E0426-3F71-466F-9720-5D9FD36B114A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {87D8F232-CD2D-4D64-B677-22AA4197DAC2}
+	EndGlobalSection
+EndGlobal
