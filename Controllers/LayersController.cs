@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using OLMapAPI_Core_PoC.Infrastructure.BasicInfo;
+using OLMapAPI_Core_PoC.MessageHandler;
 using System;
 using System.Threading.Tasks;
 
@@ -12,6 +14,7 @@ namespace OLMapAPI_Core_PoC.Controllers
     /// <summary>
     /// A controller performs operations on Layers
     /// </summary>
+    [Authorize(AuthenticationSchemes = CustomTokenAuthOptions.DefaultScemeName)]
     [Route("api/[controller]")]
     [ApiController]
     public class LayersController : ControllerBase

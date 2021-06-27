@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace OLMapAPI_Core_PoC.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -24,6 +25,7 @@ namespace OLMapAPI_Core_PoC.Controllers
             userManager = usrMgr;
         }
 
+        #region 管理員使用
         [HttpPost("UserExistsAsync")]
         // 判斷使用者是否已在存在
         public async Task<bool> UserExistsAsync(string name)
@@ -169,5 +171,6 @@ namespace OLMapAPI_Core_PoC.Controllers
 
         //    return dv;
         //}
+        #endregion
     }
 }

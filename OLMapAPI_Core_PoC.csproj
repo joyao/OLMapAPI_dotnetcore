@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\_AccountController.cs" />
+    <Compile Remove="Filter\ApiAuthorizationFilter.cs" />
+    <Compile Remove="MessageHandler\AuthMessageHandler.cs" />
+    <Compile Remove="MessageHandler\AuthorizationFilter.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.7" />

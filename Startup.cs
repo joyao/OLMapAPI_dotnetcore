@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using OLMapAPI_Core_PoC.Filter;
+using OLMapAPI_Core_PoC.MessageHandler;
 using OLMapAPI_Core_PoC.Models;
 using System;
 using System.IO;
@@ -38,7 +39,20 @@ namespace OLMapAPI_Core_PoC
                 });
             });
             services.AddSingleton(_ => Configuration);
+            services.AddAuthentication(CustomTokenAuthOptions.DefaultScemeName)
+                .AddScheme<CustomTokenAuthOptions, CustomTokenAuthHandler>(
+                    CustomTokenAuthOptions.DefaultScemeName,
+                    opts =>
+                    {
+                        opts.TokenHeaderName = "Authorization";
+                    }
+                );
+            services.AddHttpContextAccessor();
             services.AddControllers().AddWebApiConventions();
+            //services.AddControllers(options =>
+            //    {
+            //        options.Filters.Add(new AuthorizationFilter());
+            //    }).AddWebApiConventions();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OLMapAPI_Core_PoC", Version = "v1" });
@@ -46,6 +60,15 @@ namespace OLMapAPI_Core_PoC
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+                c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme()
+                {
+                    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "ApiKey"
+                });
+                c.OperationFilter<AddAuthHeaderOperationFilter>();
             });
             string connectionString = Configuration.GetConnectionString("DotNetCore_DB");
             services.AddDbContext<ApplicationDbContext>(c => c.UseSqlServer(connectionString));
@@ -96,9 +119,9 @@ namespace OLMapAPI_Core_PoC
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

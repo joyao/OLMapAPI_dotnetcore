@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using OLMapAPI_Core_PoC.Models;
 using System;
@@ -83,6 +84,7 @@ namespace OLMapAPI_Core_PoC.Infrastructure.auth
 
         //    return true;
         //}
+
 
         //列出使用者列表
         public List<string> getUserList()
