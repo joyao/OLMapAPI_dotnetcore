@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -39,14 +40,30 @@ namespace OLMapAPI_Core_PoC
                 });
             });
             services.AddSingleton(_ => Configuration);
-            services.AddAuthentication(CustomTokenAuthOptions.DefaultScemeName)
-                .AddScheme<CustomTokenAuthOptions, CustomTokenAuthHandler>(
-                    CustomTokenAuthOptions.DefaultScemeName,
-                    opts =>
-                    {
-                        opts.TokenHeaderName = "Authorization";
-                    }
-                );
+
+            // Override Default Authorization, so that can use [Authorize] directly.
+            services.AddAuthorization(options =>
+            {
+                var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
+                    CustomTokenAuthOptions.DefaultScemeName);
+                defaultAuthorizationPolicyBuilder =
+                    defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+            });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CustomTokenAuthOptions.DefaultScemeName;
+                options.DefaultChallengeScheme = CustomTokenAuthOptions.DefaultScemeName;
+                options.DefaultSignInScheme = CustomTokenAuthOptions.DefaultScemeName;
+            })
+            .AddScheme<CustomTokenAuthOptions, CustomTokenAuthHandler>(
+                CustomTokenAuthOptions.DefaultScemeName,
+                opts =>
+                {
+                    opts.TokenHeaderName = "Authorization";
+                }
+            );
+
             services.AddHttpContextAccessor();
             services.AddControllers().AddWebApiConventions();
             //services.AddControllers(options =>
@@ -55,7 +72,7 @@ namespace OLMapAPI_Core_PoC
             //    }).AddWebApiConventions();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OLMapAPI_Core_PoC", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OLMap API PoC", Version = "v1" });
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -109,12 +126,10 @@ namespace OLMapAPI_Core_PoC
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OLMapAPI_Core_PoC v1"));
-            }
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OLMapAPI_Core_PoC v1"));
+
             app.UseCors("CorsPolicy");
 
             app.UseRouting();

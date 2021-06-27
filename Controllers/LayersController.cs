@@ -14,7 +14,8 @@ namespace OLMapAPI_Core_PoC.Controllers
     /// <summary>
     /// A controller performs operations on Layers
     /// </summary>
-    [Authorize(AuthenticationSchemes = CustomTokenAuthOptions.DefaultScemeName)]
+    [Authorize]
+    //[Authorize(AuthenticationSchemes = CustomTokenAuthOptions.DefaultScemeName)]
     [Route("api/[controller]")]
     [ApiController]
     public class LayersController : ControllerBase

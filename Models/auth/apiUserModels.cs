@@ -34,13 +34,8 @@ namespace OLMapAPI_Core_PoC.Models.auth
     /// </summary> 
     public class removeApiUserObj
     {
-        public string id;
+        public string id { get; set; }
 
-        public removeApiUserObj(string _id)
-        {
-            id = _id;
-        }
-        public removeApiUserObj() { }
     }
 
     /// <summary>
@@ -48,13 +43,8 @@ namespace OLMapAPI_Core_PoC.Models.auth
     /// </summary> 
     public class lockApiUserObj
     {
-        public string id;
+        public string id { get; set; }
 
-        public lockApiUserObj(string _id)
-        {
-            id = _id;
-        }
-        public lockApiUserObj() { }
     }
 
 }

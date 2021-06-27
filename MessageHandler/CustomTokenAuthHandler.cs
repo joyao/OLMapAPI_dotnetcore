@@ -32,14 +32,24 @@ namespace OLMapAPI_Core_PoC.MessageHandler
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            if (!Request.Headers.ContainsKey(Options.TokenHeaderName))
-                return Task.FromResult(AuthenticateResult.Fail($"Missing Header For Token: {Options.TokenHeaderName}"));
-
-            var token = Request.Headers[Options.TokenHeaderName];
-            // get username from db or somewhere else accordining to this token
-            AuthFunc auth = new AuthFunc(_context, _userManager, _config);
-            var username = auth.validatesToken(token.First());
-            if(username != "")
+            var username = "";
+            if (_config["lockYN"] != "N")
+            {
+                if (!Request.Headers.ContainsKey(Options.TokenHeaderName))
+                    return Task.FromResult(AuthenticateResult.Fail($"Missing Header For Token: {Options.TokenHeaderName}"));
+                var token = Request.Headers[Options.TokenHeaderName];
+                if(token.ToString().Contains("OLMapAPI "))
+                {
+                    // get username from db or somewhere else accordining to this token
+                    AuthFunc auth = new AuthFunc(_context, _userManager, _config);
+                    username = auth.validatesToken(token.First());
+                }
+                else
+                {
+                    return Task.FromResult(AuthenticateResult.Fail("Invalid Token Type!"));
+                }
+            }
+            if (username != "" || _config["lockYN"] == "N")
             {
                 var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier, username),

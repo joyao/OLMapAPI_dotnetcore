@@ -17,7 +17,7 @@ namespace OLMapAPI_Core_PoC.Infrastructure.BasicInfo
             this.config = config;
         }
 
-        public async Task<List<LayerResourceList>> getLayerResourceList()
+        public Task<List<LayerResourceList>> getLayerResourceList()
         {
             SqlDataReader dr = null;
             SqlConnection myConnection = new SqlConnection();
@@ -59,7 +59,7 @@ namespace OLMapAPI_Core_PoC.Infrastructure.BasicInfo
                 }
                 myConnection.Close();
                 myConnection.Dispose();
-                return arrList;
+                return Task.FromResult(arrList);
 
             }
             catch (Exception ex)
