@@ -27,7 +27,7 @@ namespace OLMapAPI_Core_PoC.Infrastructure.BasicInfo
             SqlCommand sqlCmd = new SqlCommand();
 
             string sqlStr;
-            sqlStr = "SELECT [I] ,[GroupID] ,[GroupName] ,[LayerID] ,[LayerOrder] ,[LayerQueryable] ,[LayerTitle] ,[LayerType],[DataType] ,[DataURL] ,[LayerVisibleCode] ,[OpenOpacity]  FROM [OLDemo].[dbo].[LayerResource]  order by [GroupID], [LayerOrder], [LayerType]";
+            sqlStr = "SELECT [ID] ,[GroupID] ,[GroupName] ,[LayerID] ,[LayerOrder] ,[LayerQueryable] ,[LayerTitle] ,[LayerType],[DataType] ,[DataURL] ,[LayerVisibleCode] ,[OpenOpacity]  FROM [OLDemo].[dbo].[LayerResource]  order by [GroupID], [LayerOrder], [LayerType]";
 
             sqlCmd.CommandText = sqlStr;
             sqlCmd.CommandType = CommandType.Text;
